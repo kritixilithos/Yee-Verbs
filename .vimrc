@@ -1,7 +1,7 @@
 syntax on
 set mouse=a
 set autoindent
-
+"Nice function @DJMcMayhem wrote for me for golfing in V!
 function! Alt()
 	  let c = nr2char(getchar() + 128)
 	  exec 'normal gi'.c
@@ -29,7 +29,7 @@ function! Dec2BinA()
     call Dec2BinA()
   endif
 endfunction
-
+"Decimal to Binary converter (trims leading zeroes)
 function! Dec2Bin(n)
   norm ma
   let @a=a:n
