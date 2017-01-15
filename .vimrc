@@ -1,12 +1,24 @@
 syntax on
 set mouse=a
 set autoindent
+"Backspace doesn't work properly for some reason in insert mode
+" in Vim 8.0
+set backspace=indent,start
+
 "Nice function @DJMcMayhem wrote for me for golfing in V!
-function! Alt()
+" that I modified a bit
+function! Alt(mode)
 	  let c = nr2char(getchar() + 128)
-	  exec 'normal gi'.c
-		endfunction
-inoremap <C-i> <C-o>:call Alt()<cr>
+	  exec 'norm '.a:mode.c
+endfunction
+nnoremap <C-i> :call Alt("")<cr>
+inoremap <C-i> <C-o>:call Alt("gi")<cr>
+
+"V is super cool
+source ~/golfing/V/nvim/motions.vim
+source ~/golfing/V/nvim/normal_keys.vim
+source ~/golfing/V/nvim/regex.vim
+source ~/golfing/V/nvim/math.vim
 
 function! Dec2BinB()
 	norm y$
