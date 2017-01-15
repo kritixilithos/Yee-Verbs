@@ -6,12 +6,21 @@ set autoindent
 set backspace=indent,start
 
 "Nice function @DJMcMayhem wrote for me for golfing in V!
-" that I modified a bit
+" that I modified a bit to support the different modes
 function! Alt(mode)
 	  let c = nr2char(getchar() + 128)
-	  exec 'norm '.a:mode.c
+	  "c is command mode
+	  if a:mode=="c"
+	    return "".c
+	  else
+	  "gi is insert mode
+	    exec 'normal '.a:mode.c
+	  endif
 endfunction
+"Support for different modes: normal, visual, command-line, insert
 nnoremap <C-i> :call Alt("")<cr>
+vnoremap <C-i> :call Alt("")<cr>
+cnoremap <expr> <C-i> Alt("c")
 inoremap <C-i> <C-o>:call Alt("gi")<cr>
 
 "V is super cool
