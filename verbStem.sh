@@ -7,7 +7,7 @@
 #$ sh verbStem.sh avoir future french
 #ir-
 
-verb=$1
+verb=$(echo $1 | sed "s/ /%20/g")
 tense=$2
 language=$3
 
