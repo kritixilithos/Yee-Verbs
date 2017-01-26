@@ -8,21 +8,23 @@ set backspace=indent,start
 
 norm ma
 
-function! Test()
+function! MouseScroll()
+  "mark b is the current cursor position
+	"mark a is the previous cursor position
   norm mb
-	let b=line('.')
+	let currPos=line('.')
 	norm `a
-	let a=line('.')
-	if b>a
+	let prevPos=line('.')
+	if currPos>prevPos
 	  norm `bma
 		norm 
-	elseif b<a
+	elseif currPos<prevPos
 	  norm `bma
 		norm 
 	endif
 endfunction
 
-map <LeftDrag> <LeftMouse>:call Test()<cr>
+map <LeftDrag> <LeftMouse>:call MouseScroll()<cr>
 
 "Nice function @DJMcMayhem wrote for me for golfing in V!
 " that I modified a bit to support the different modes
