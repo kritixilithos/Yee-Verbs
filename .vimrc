@@ -25,6 +25,7 @@ function! MouseScroll()
 endfunction
 
 map <LeftDrag> <LeftMouse>:call MouseScroll()<cr>
+imap <LeftDrag> <ESC><LeftMouse>:call MouseScroll()<cr>:norm gi<cr>
 
 "Nice function @DJMcMayhem wrote for me for golfing in V!
 " that I modified a bit to support the different modes
