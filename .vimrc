@@ -10,18 +10,18 @@ norm ma
 
 function! MouseScroll()
   "mark b is the current cursor position
-	"mark a is the previous cursor position
+  "mark a is the previous cursor position
   norm mb
-	let currPos=line('.')
-	norm `a
-	let prevPos=line('.')
-	if currPos>prevPos
-	  norm `bma
-		norm 
-	elseif currPos<prevPos
-	  norm `bma
-		norm 
-	endif
+  let currPos=line('.')
+  norm `a
+  let prevPos=line('.')
+  if currPos>prevPos
+    norm `bma
+    norm 
+  elseif currPos<prevPos
+    norm `bma
+    norm 
+  endif
 endfunction
 
 map <LeftDrag> <LeftMouse>:call MouseScroll()<cr>
@@ -54,10 +54,10 @@ source ~/golfing/V/nvim/math.vim
 function! Dec2BinB()
 norm y$
 if @">0
-	norm k
-	call Dec2BinB()
+  norm k
+  call Dec2BinB()
 else
-	norm 
+  norm 
 endif
 endfunction
 
