@@ -16,7 +16,7 @@ function! Test()
 	if b>a
 	  norm `bma
 		norm 
-	else
+	elseif b<a
 	  norm `bma
 		norm 
 	endif
