@@ -6,8 +6,6 @@ set tabstop=2
 " in Vim 8.0
 set backspace=indent,start
 
-norm ma
-
 function! MouseScroll()
   "mark b is the current cursor position
   "mark a is the previous cursor position
@@ -24,8 +22,8 @@ function! MouseScroll()
   endif
 endfunction
 
-map <LeftDrag> <LeftMouse>:call MouseScroll()<cr>
-imap <LeftDrag> <ESC><LeftMouse>:call MouseScroll()<cr>:norm gi<cr>
+map <LeftDrag> ma<LeftMouse>:call MouseScroll()<cr>
+imap <LeftDrag> <ESC>ma<LeftMouse>:call MouseScroll()<cr>:norm gi<cr>
 
 "Nice function @DJMcMayhem wrote for me for golfing in V!
 " that I modified a bit to support the different modes
