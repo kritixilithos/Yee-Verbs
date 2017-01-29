@@ -73,15 +73,15 @@ function! Dec2BinA()
 endfunction
 "Decimal to Binary converter (trims leading zeroes)
 function! Dec2Bin(n)
- norm ma
- let @a=a:n
- new
- norm "ap
- norm 8o0H
- call Dec2BinA()
- norm 9gJ
- s/^0*
- norm 0y$
- q!
- :norm `ap
+  norm ma
+  let @a=a:n
+  new
+  norm "ap
+  norm 8o0H
+  call Dec2BinA()
+  norm 9gJ
+  s/^0*
+  norm 0y$
+  q!
+  :norm `ap
 endfunction
