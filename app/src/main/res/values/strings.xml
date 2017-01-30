@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Yee Verbs</string>
+    <string name="conjugate">Conjugate</string>
     <string name="get_stem">Get Stem</string>
     <string name="tense">Tense</string>
     <string name="verb">Verb</string>
+    <string name="pronoun">Pronoun</string>
     <string-array name="languages">
         <item>French</item>
         <item>Spanish</item>

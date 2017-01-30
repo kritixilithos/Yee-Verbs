@@ -14,8 +14,17 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/pronoun"
+        android:gravity="center"
+        android:textSize="17sp"
+        android:hint="@string/pronoun"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:id="@+id/verb"
+        android:layout_below="@id/pronoun"
         android:hint="@string/verb"
         android:textSize="17sp"/>
 
@@ -53,7 +62,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/get_stem"
-        android:text="@string/get_stem"
+        android:text="@string/conjugate"
         android:textSize="17sp"
         android:layout_above="@id/stem"
         android:layout_centerHorizontal="true" />
