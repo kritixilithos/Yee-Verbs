@@ -23,6 +23,14 @@ import java.io.*;
 import java.util.regex.*;
 import java.lang.*;
 
+/**
+ * Made by:
+ *   Kritixi Lithos
+ *
+ * Powered by (but not affiliated with)
+ *   Verb Maps
+ */
+
 /*
 1) TODO: add support for future and conditional perfect tenses for french verbs (they are weird)
 2) TODO: - add support for other languages' conjugation as well
