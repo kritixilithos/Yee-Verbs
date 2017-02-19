@@ -32,30 +32,46 @@ import java.lang.*;
  */
 
 /*
-1) TODO: add support for future and conditional perfect tenses for french verbs (they are weird)
+1) TO(DOne): add support for future and conditional perfect tenses for french verbs (they are weird)
 2) TODO: - add support for other languages' conjugation as well
+3) TODO: fix IMPERFECT French tense
  */
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner langSelector;
+    Spinner tenseSpinner;
+    EditText tenseEditText;
     String language = "fr";
+    String tense = "";
     Button button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         langSelector = (Spinner) findViewById(R.id.lang_selector);
+        tenseSpinner = (Spinner) findViewById(R.id.tenseSpinner);
+        tenseEditText = (EditText) findViewById(R.id.tenseEditText);
 
-        SpinnerAdapter adap = new ArrayAdapter<String>(this, R.layout.langselector_layout,
-                new String[]{"French","Spanish","Italian","Portuguese"});
+        SpinnerAdapter langAdap = new ArrayAdapter<>(this, R.layout.langselector_layout,
+                getResources().getStringArray(R.array.languages));
+
+        SpinnerAdapter tenseAdap = new ArrayAdapter<>(this, R.layout.langselector_layout,
+                getResources().getStringArray(R.array.tenses));
 
         //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
         //       R.array.languages, android.R.layout.simple_spinner_item);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        langSelector.setAdapter(adap);
+        langSelector.setAdapter(langAdap);
         langSelector.setOnItemSelectedListener(this);
+
+        tenseSpinner.setAdapter(tenseAdap);
+        tenseSpinner.setOnItemSelectedListener(this);
+
+        //Start with removing tenseEditText
+        tenseEditText.setVisibility(View.INVISIBLE);
 
         button = (Button) findViewById(R.id.get_stem);
         button.setOnClickListener(new View.OnClickListener() {
@@ -64,39 +80,59 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 //getting the necessary stuff from the EditTexts and then feeding them to our AsyncTask
                 String pronoun  = ((EditText) findViewById( R.id.pronoun)).getText().toString();
                 String verb     = ((EditText) findViewById(    R.id.verb)).getText().toString();
-                String tense    = ((EditText) findViewById(   R.id.tense)).getText().toString();
+                if(!language.equals("fr")) {
+                    tense = ((EditText) findViewById(R.id.tenseEditText)).getText().toString();
+                }
                 new getVerb().execute(pronoun, verb, tense, language);
             }
         });
     }
 
+    public void notFrench(String lang) {
+        language = lang;
+        button = (Button) findViewById(R.id.get_stem);
+        button.setText(getString(R.string.get_stem));
+        tenseEditText.setVisibility(View.VISIBLE);
+        tenseSpinner.setVisibility(View.INVISIBLE);
+    }
+
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-        String tempLanguage = String.valueOf(adapterView.getItemAtPosition(pos));
-        switch (tempLanguage) {
-            case "French":
-                language = "fr";
-                //the two lines for all the languages below determine whether we are in conjugate mode or in stem mode
-                button = (Button) findViewById(R.id.get_stem);
-                button.setText(getString(R.string.conjugate));
-                break;
-            case "Spanish":
-                language = "es";
-                button = (Button) findViewById(R.id.get_stem);
-                button.setText(getString(R.string.get_stem));
-                break;
-            case "Italian":
-                language = "it";
-                button = (Button) findViewById(R.id.get_stem);
-                button.setText(getString(R.string.get_stem));
-                break;
-            case "Portuguese":
-                language = "pt";
-                button = (Button) findViewById(R.id.get_stem);
-                button.setText(getString(R.string.get_stem));
-                break;
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        if(parent.getId() == R.id.lang_selector) {
+            String tempLanguage = String.valueOf(parent.getItemAtPosition(pos));
+            switch (tempLanguage) {
+                case "French":
+                    language = "fr";
+                    //the two lines for all the languages below determine whether we are in conjugate mode or in stem mode
+                    button = (Button) findViewById(R.id.get_stem);
+                    button.setText(getString(R.string.conjugate));
+                    tenseEditText.setVisibility(View.INVISIBLE);
+                    tenseSpinner.setVisibility(View.VISIBLE);
+                    break;
+                case "Spanish":
+                    notFrench("es");
+                    break;
+                case "Italian":
+                    notFrench("it");
+                    break;
+                case "Portuguese":
+                    notFrench("pt");
+                    break;
+            }
+            System.out.println(language);
+        } else if(parent.getId() == R.id.tenseSpinner) {
+            String tempTense = String.valueOf(parent.getItemAtPosition(pos));
+            switch (tempTense) {
+                case "Future Perfect":
+                    tense = "Future<\\/strong>Perfect";
+                    break;
+                case "Conditional Perfect":
+                    tense = "Conditional<\\/strong>Perfect";
+                    break;
+                default:
+                    tense = tempTense+"<\\/strong>";
+            }
         }
-        System.out.println(language);
     }
 
     @Override
@@ -134,22 +170,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 br.close();
 
-                //removing space because why not?
+                //removing spaces because why not?
                 content = content.replaceAll("\\s","");
 
                 //getting the stem of the verb (if there isn' one we get an empty string)
-                Pattern stemPattern = Pattern.compile("(?<=>)([^><]+)(?=<\\/span><\\/div><divclass=\"transform\">[^>]*>Add"+tense+")",Pattern.CASE_INSENSITIVE);
+                Pattern stemPattern = Pattern.compile("(?<=>)([^><]+)(?=<\\/span><\\/div><divclass=\"transform\">[^>]*>Add"+tense.replace("<\\/strong>","")+")",Pattern.CASE_INSENSITIVE);
                 Matcher stemMatcher = stemPattern.matcher(content);
                 while (stemMatcher.find()) {
                     stem = stemMatcher.group() + "";
                 }
-                System.out.println(stem+"-");
+                System.out.println("Stem: "+stem+"-");
 
                 //give stem if language isn't French since other language are not supported yet
                 if(!language.equalsIgnoreCase("fr")) return stem+"-";
 
                 //getting the conjugation of the verb                                                     special cases for je and il/elle (TODO: add special cases for other languages as well)
-                Pattern conjugationPattern = Pattern.compile("<strong>"+tense+"<\\/strong>((?!strong).)*"+pronoun.replaceAll("je","(?:je|j')").replaceAll("(il|on|elle)(s?)","il$2/elle$2")+stem+"<spanclass=\"highlight\">([^<]+)<\\/span>([^<]*)<\\/div>",Pattern.CASE_INSENSITIVE);
+                Pattern conjugationPattern = Pattern.compile("<strong>"+tense+"((?!strong|perfect).)*"+pronoun.replaceAll("je","(?:je|j')").replaceAll("(il|on|elle)(s?)","il$2/elle$2")+stem+"<spanclass=\"highlight\">([^<]+)<\\/span>([^<]*)<\\/div>",Pattern.CASE_INSENSITIVE);
                 Matcher conjugationMatcher = conjugationPattern.matcher(content);
                 while (conjugationMatcher.find()) {
                     System.out.println(conjugationMatcher.group());

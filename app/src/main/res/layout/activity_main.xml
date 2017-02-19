@@ -28,19 +28,30 @@
         android:hint="@string/verb"
         android:textSize="17sp"/>
 
-    <EditText
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_below="@id/verb"
-        android:id="@+id/tense"
-        android:hint="@string/tense"
-        android:textSize="17sp"/>
+        android:id="@+id/tenses">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/tenseEditText"
+            android:hint="@string/tense"
+            android:textSize="17sp"/>
 
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tenseSpinner"
+            android:gravity="center"
+            android:textAlignment="center"/>
+    </RelativeLayout>
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tense"
+        android:layout_below="@id/tenses"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:gravity="center"

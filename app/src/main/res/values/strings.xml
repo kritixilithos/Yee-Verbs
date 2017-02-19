@@ -11,4 +11,14 @@
         <item>Italian</item>
         <item>Portuguese</item>
     </string-array>
+    <string-array name="tenses">
+        <item>Present</item>
+        <item>Imperfect</item>
+        <item>Future</item>
+        <item>Conditional</item>
+        <item>Perfect</item>
+        <item>Pluperfect</item>
+        <item>Future Perfect</item>
+        <item>Conditional Perfect</item>
+    </string-array>
 </resources>
